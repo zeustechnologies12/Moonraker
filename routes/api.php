@@ -1,5 +1,6 @@
 <?php
 
+use App\Actions\UserLoginAction;
 use App\Actions\UserSignupAction;
 use App\Models\Role;
 use App\Models\User;
@@ -15,21 +16,4 @@ use function Laravel\Prompts\error;
 
 
 Route::post('signup', UserSignupAction::class);
-
-Route::post('login', function (Request $request) {
-
-    $request->validate([
-        'email' => 'required|email',
-        'password' => 'required'
-    ]);
-    $user = User::whereEmail($request->email)->first();
-
-    if (! $user || ! Hash::check($request->password, $user->password)) {
-        $error =  ValidationException::withMessages([
-            'email' => 'The provided credentials are incorrect'
-        ]);
-        throw $error;
-    }
-
-    return $user->createToken($request->header('user-agent'))->plainTextToken;
-});
+Route::post('login', UserLoginAction::class);
