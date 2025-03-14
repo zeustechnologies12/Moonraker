@@ -40,12 +40,13 @@ class UserSignupAction
             'phone_number' => $request->phone_number,
             'email' => $request->email,
             'password' => bcrypt($request->password),
-            'role_id' => $role->id,
+            'role_id' => Role::whereName($request->role)->first()->id,
+
         ]);
 
         return response()->json([
             'message' => 'User Created Successfully',
-            'user' => $user
+            'user' => $user->load('role'),
         ], 201);
     }
 }
