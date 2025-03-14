@@ -2,9 +2,11 @@
 
 namespace App\Actions;
 
+use App\Enums\RoleEnum;
 use App\Models\User;
 use App\Models\Role;
-use App\RoleName;
+use App\Traits\CustomValidations;
+use App\Traits\RoleValidator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -12,17 +14,16 @@ use Lorisleiva\Actions\Concerns\AsAction;
 
 class UserSignupAction
 {
-    use AsAction;
+    use AsAction, CustomValidations;
 
     public function handle(Request $request)
     {
-        // Validate Request
         $validation = Validator::make($request->all(), [
             'first_name' => 'required|string|unique:users,first_name',
             'last_name' => 'required|string|unique:users,last_name',
             'phone_number' => 'required|string|unique:users,phone_number',
             'username' => 'required|string|unique:users,username',
-            'role' => ['required', Rule::enum(RoleName::class)],
+            'role' => ['required', Rule::enum(RoleEnum::class)],
             'password' => 'required',
         ]);
 
@@ -30,12 +31,7 @@ class UserSignupAction
             return response()->json(['errors' => $validation->errors()], 400);
         }
 
-        // Find Role ID
-        $role = Role::where('name', $request->role)->first();
-        if (!$role) {
-            return response()->json(['error' => 'Role not found in database.'], 404);
-        }
-
+        $this->validateRole($request->role);
         // Create User
         $user = User::create([
             'first_name' => $request->first_name,
