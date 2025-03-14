@@ -1,8 +1,8 @@
 <?php
 
-namespace App;
+namespace App\Enums;
 
-enum RoleName: string
+enum RoleEnum: string
 {
     case Customer = 'customer';
     case Manager = 'manager';
