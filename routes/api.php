@@ -1,5 +1,6 @@
 <?php
 
+use App\Actions\GetArenasAction;
 use App\Actions\UserLoginAction;
 use App\Actions\UserSignupAction;
 use App\Models\Role;
@@ -17,3 +18,7 @@ use function Laravel\Prompts\error;
 
 Route::post('signup', UserSignupAction::class);
 Route::post('login', UserLoginAction::class);
+
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('arenas', GetArenasAction::class);
+});
