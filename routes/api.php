@@ -15,9 +15,10 @@ use Illuminate\Validation\ValidationException;
 
 use function Laravel\Prompts\error;
 
-
-Route::post('signup', UserSignupAction::class);
-Route::post('login', UserLoginAction::class);
+Route::prefix('users')->group(function () {
+    Route::post('signup', UserSignupAction::class);
+    Route::post('login', UserLoginAction::class);
+});
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('arenas', GetArenasAction::class);
