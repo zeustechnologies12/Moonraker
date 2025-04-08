@@ -15,8 +15,28 @@ class ArenaSeeder extends Seeder
     {
         Arena::factory()->create([
             'name' => 'Great Town Arena',
-            'price' => 5000, // Set a fixed price or use random
-            'location_id' => 1, // Assign to location_id 1
+            'price' => 5000,
+            'location_id' => 1,
+        ]);
+        Arena::factory()->create([
+            'name' => 'Mountain Peak Arena',
+            'price' => 7500,
+            'location_id' => 2,
+        ]);
+        Arena::factory()->create([
+            'name' => 'City Center Arena',
+            'price' => 3000,
+            'location_id' => 3,
+        ]);
+        Arena::factory()->create([
+            'name' => 'Suburban Arena',
+            'price' => 4500,
+            'location_id' => 2,
+        ]);
+        Arena::factory()->create([
+            'name' => 'Championship Arena',
+            'price' => 10000,
+            'location_id' => 1,
         ]);
     }
 }
