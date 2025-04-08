@@ -23,5 +23,5 @@ Route::prefix('users')->group(function () {
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('arenas', GetArenasAction::class);
-    Route::get('arenas/{arena}', fn(Arena $arena) => $arena->load('location'));
+    Route::get('arenas/{arena}', fn(Arena $arena) => $arena->load('location.city'));
 });
