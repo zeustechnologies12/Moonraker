@@ -3,6 +3,7 @@
 use App\Actions\GetArenasAction;
 use App\Actions\UserLoginAction;
 use App\Actions\UserSignupAction;
+use App\Models\Arena;
 use App\Models\Role;
 use App\Models\User;
 use App\RoleName;
@@ -22,4 +23,5 @@ Route::prefix('users')->group(function () {
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('arenas', GetArenasAction::class);
+    Route::get('arenas/{arena}', fn(Arena $arena) => $arena->load('location'));
 });
