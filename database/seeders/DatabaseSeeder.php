@@ -20,8 +20,9 @@ class DatabaseSeeder extends Seeder
             CitySeeder::class,
             LocationSeeder::class,
             ArenaSeeder::class,
+            SportsSeeder::class,
+            FieldSeeder::class,
+            UserSeeder::class,
         ]);
-
-        User::factory()->create();
     }
 }

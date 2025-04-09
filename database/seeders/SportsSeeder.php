@@ -14,8 +14,14 @@ class SportsSeeder extends Seeder
      */
     public function run(): void
     {
-        foreach (SportNamesEnum::cases() as $sport) {
-            Sport::firstOrCreate(['name' => $sport->value]);
+        $sports = [
+            ['name' => SportNamesEnum::Futsal->value,  'players' => '5'],
+            ['name' => SportNamesEnum::Futsal->value,  'players' => '7'],
+            ['name' => SportNamesEnum::Cricker->value, 'players' => '7'],
+        ];
+
+        foreach ($sports as $sport) {
+            Sport::firstOrCreate($sport);
         }
     }
 }
