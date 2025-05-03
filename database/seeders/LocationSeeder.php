@@ -14,13 +14,21 @@ class LocationSeeder extends Seeder
      */
     public function run(): void
     {
-        $locations = ['Model Town', 'Faisal Town', 'Johar Town'];
+        $cities = [
+            'Lahore' => ['Model Town', 'Faisal Town', 'Johar Town'],
+            'Karachi' => ['DHA', 'Gulshan-e-Iqbal', 'Nazimabad'],
+            'Islamabad' => ['F-6', 'G-10', 'I-8'],
+        ];
 
-        foreach ($locations as $location) {
-            Location::factory()->create([
-                'name' => $location,
-                'city_id' => 1,
-            ]);
+        foreach ($cities as $city_name => $location_names) {
+            $city = City::whereName($city_name)->first();
+
+            foreach ($location_names as $location_name) {
+                Location::factory()->create([
+                    'name' => $location_name,
+                    'city_id' => $city->id,
+                ]);
+            }
         }
     }
 }
