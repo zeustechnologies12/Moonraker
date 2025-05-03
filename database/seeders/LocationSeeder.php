@@ -16,8 +16,8 @@ class LocationSeeder extends Seeder
     {
         $cities = [
             'Lahore' => ['Model Town', 'Faisal Town', 'Johar Town'],
-            'Karachi' => ['DHA', 'Gulshan-e-Iqbal', 'Nazimabad'],
-            'Islamabad' => ['F-6', 'G-10', 'I-8'],
+            'Karachi' => ['DHA', 'Gulistan-e-johar', 'Nazimabad'],
+            'Islamabad' => ['gulberg', 'faisal colony', 'DHA'],
         ];
 
         foreach ($cities as $city_name => $location_names) {
