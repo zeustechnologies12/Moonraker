@@ -1,6 +1,7 @@
 <?php
 
 use App\Actions\GetArenasAction;
+use App\Actions\GetLocationsAction;
 use App\Actions\UserLoginAction;
 use App\Actions\UserSignupAction;
 use App\Models\Arena;
@@ -23,5 +24,6 @@ Route::prefix('users')->group(function () {
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('arenas', GetArenasAction::class);
+    Route::get('locations', GetLocationsAction::class);
     Route::get('arenas/{arena}', fn(Arena $arena) => $arena->load('location.city'));
 });

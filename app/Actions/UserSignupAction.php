@@ -30,9 +30,8 @@ class UserSignupAction
         if ($validation->fails()) {
             return response()->json(['errors' => $validation->errors()], 400);
         }
-
+        
         $this->validateRole($request->role);
-        // Create User
         $user = User::create([
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
