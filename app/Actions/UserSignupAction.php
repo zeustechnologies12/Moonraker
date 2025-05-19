@@ -19,10 +19,11 @@ class UserSignupAction
     public function handle(Request $request)
     {
         $validation = Validator::make($request->all(), [
-            'first_name' => 'required|string|unique:users,first_name',
-            'last_name' => 'required|string|unique:users,last_name',
-            'phone_number' => 'required|string|unique:users,phone_number',
-            'username' => 'required|string|unique:users,username',
+            'first_name' => 'required|string|',
+            'last_name' => 'required|string|',
+            'username' => 'required|string|',
+            'phone_number' => 'required|string|',
+            'email' => 'required|string|',
             'role' => ['required', Rule::enum(RoleEnum::class)],
             'password' => 'required',
         ]);
@@ -30,22 +31,30 @@ class UserSignupAction
         if ($validation->fails()) {
             return response()->json(['errors' => $validation->errors()], 400);
         }
-        
+
         $this->validateRole($request->role);
-        $user = User::create([
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
-            'username' => $request->username,
-            'phone_number' => $request->phone_number,
-            'email' => $request->email,
-            'password' => bcrypt($request->password),
-            'role_id' => Role::whereName($request->role)->first()->id,
+        $role = Role::whereName($request->role)->first();
 
-        ]);
+        $user = User::where('email', $request->email)->first();
 
+        if ($user) {
+            if (! $user->roles->contains('id', $role->id)) {
+                $user->roles()->attach($role->id);
+            }
+        } else {
+            $user = User::create([
+                'first_name'   => $request->first_name,
+                'last_name'    => $request->last_name,
+                'username'     => $request->username,
+                'phone_number' => $request->phone_number,
+                'email'        => $request->email,
+                'password'     => bcrypt($request->password),
+            ]);
+            $user->roles()->attach($role->id);
+        }
         return response()->json([
             'message' => 'User Created Successfully',
-            'user' => $user->load('role'),
+            'user' => $user->load('roles'),
         ], 201);
     }
 }

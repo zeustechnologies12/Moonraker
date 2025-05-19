@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
             SportsSeeder::class,
             FieldSeeder::class,
             UserSeeder::class,
+            RoleUserSeeder::class,
         ]);
     }
 }
