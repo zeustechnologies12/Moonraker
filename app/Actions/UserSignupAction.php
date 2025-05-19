@@ -21,9 +21,9 @@ class UserSignupAction
         $validation = Validator::make($request->all(), [
             'first_name' => 'required|string|',
             'last_name' => 'required|string|',
-            'username' => 'required|string|',
+            'username' => ['required', 'string', 'unique:users,username'],
             'phone_number' => 'required|string|',
-            'email' => 'required|string|',
+            'email' => ['required', 'string', 'email', 'unique:users,email'],
             'role' => ['required', Rule::enum(RoleEnum::class)],
             'password' => 'required',
         ]);
