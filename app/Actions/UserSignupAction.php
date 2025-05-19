@@ -54,7 +54,6 @@ class UserSignupAction
         }
         return response()->json([
             'message' => 'User Created Successfully',
-            'user' => $user->load('roles'),
         ], 201);
     }
 }

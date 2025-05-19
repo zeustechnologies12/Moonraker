@@ -29,12 +29,14 @@ class UserLoginAction
                 'wrong credentials' => 'Your email or password is incorrect'
             ]);
         }
-        if ($user->role->name != $request->role) {
+        if (! $user->roles->contains('name', $request->role)) {
             throw ValidationException::withMessages([
                 'wrong role' => 'Your role is incorrect for the user'
             ]);
         }
-
-        return $user->createToken($request->header('user-agent'))->plainTextToken;
+        return [
+            'token' => $user->createToken($request->header('user-agent'))->plainTextToken,
+            'user' => $user,
+        ];
     }
 }
