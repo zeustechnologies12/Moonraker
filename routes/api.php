@@ -2,6 +2,7 @@
 
 use App\Actions\GetArenasAction;
 use App\Actions\GetLocationsAction;
+use App\Actions\UserEditAction;
 use App\Actions\UserLoginAction;
 use App\Actions\UserSignupAction;
 use App\Models\Arena;
@@ -22,8 +23,12 @@ Route::prefix('users')->group(function () {
     Route::post('login', UserLoginAction::class);
 });
 
+// User apis
 Route::middleware(['auth:sanctum'])->group(function () {
+    Route::post('users/edit', UserEditAction::class);
     Route::get('arenas', GetArenasAction::class);
     Route::get('locations', GetLocationsAction::class);
     Route::get('arenas/{arena}', fn(Arena $arena) => $arena->load('location.city'));
 });
+
+//Manager APIs

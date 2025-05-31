@@ -62,4 +62,8 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Role::class);
     }
+    public function arenas()
+    {
+        return $this->belongsToMany(Arena::class);
+    }
 }
