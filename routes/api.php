@@ -1,5 +1,6 @@
 <?php
 
+use App\Actions\CreateArenaAction;
 use App\Actions\GetArenasAction;
 use App\Actions\GetLocationsAction;
 use App\Actions\UserEditAction;
@@ -32,3 +33,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 });
 
 //Manager APIs
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::post('arenas/create', CreateArenaAction::class);
+    Route::get('user_arenas/', [GetArenasAction::class, 'userArenas']);
+});

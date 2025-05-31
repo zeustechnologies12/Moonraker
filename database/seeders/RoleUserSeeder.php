@@ -15,10 +15,10 @@ class RoleUserSeeder extends Seeder
     public function run(): void
     {
         $user = User::first();
-        $role = Role::first();
+        $roles = Role::all(); // get all roles
 
-        if ($user && $role) {
-            $user->roles()->attach($role->id);
+        if ($user && $roles->count()) {
+            $user->roles()->syncWithoutDetaching($roles->pluck('id'));
         }
     }
 }

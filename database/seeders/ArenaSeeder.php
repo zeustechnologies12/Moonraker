@@ -2,9 +2,11 @@
 
 namespace Database\Seeders;
 
+use App\Enums\RoleEnum;
 use App\Models\Arena;
 use App\Models\City;
 use App\Models\Location;
+use App\Models\Role;
 use Illuminate\Database\Seeder;
 
 class ArenaSeeder extends Seeder
@@ -31,6 +33,7 @@ class ArenaSeeder extends Seeder
                 ['name' => 'hilltop_arena', 'price' => 6200],
             ],
         ];
+        $managers = Role::whereName(RoleEnum::Manager->value)->first()->users()->first();
 
         foreach ($arenas_by_city as $city_name => $arenas) {
             $city = City::where('name', $city_name)->first();
@@ -41,11 +44,12 @@ class ArenaSeeder extends Seeder
             $location_ids = $city->locations()->pluck('id')->toArray();
 
             foreach ($arenas as $arena_data) {
-                Arena::factory()->create([
+                $arena = Arena::factory()->create([
                     'name' => $arena_data['name'],
                     'price' => $arena_data['price'],
                     'location_id' => $location_ids[array_rand($location_ids)],
                 ]);
+                $arena->users()->syncWithoutDetaching($managers->pluck('id'));
             }
         }
     }

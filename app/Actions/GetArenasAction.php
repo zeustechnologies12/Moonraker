@@ -26,4 +26,14 @@ class GetArenasAction
             ]);
         return $arenas->paginate();
     }
+
+    public function userArenas(Request $request)
+    {
+        $arenas = QueryBuilder::for(Arena::class)
+            ->with('location.city')
+            ->allowedFilters([
+                AllowedFilter::exact('users.id'),
+            ]);
+        return $arenas->paginate();
+    }
 }

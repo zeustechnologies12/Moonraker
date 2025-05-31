@@ -19,11 +19,12 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             CitySeeder::class,
             LocationSeeder::class,
+            UserSeeder::class,
+            RoleUserSeeder::class,
             ArenaSeeder::class,
             SportsSeeder::class,
             FieldSeeder::class,
-            UserSeeder::class,
-            RoleUserSeeder::class,
+
         ]);
     }
 }
