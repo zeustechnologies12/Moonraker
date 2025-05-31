@@ -28,10 +28,6 @@ class UserSignupAction
             'password' => 'required',
         ]);
 
-        if ($validation->fails()) {
-            return response()->json(['errors' => $validation->errors()], 400);
-        }
-
         $this->validateRole($request->role);
         $role = Role::whereName($request->role)->first();
 
@@ -40,8 +36,14 @@ class UserSignupAction
         if ($user) {
             if (! $user->roles->contains('id', $role->id)) {
                 $user->roles()->attach($role->id);
+                return response()->json(['message' => "A new role  ($role->name) has been added for this user."]);
+            } else {
+                return response()->json(['errors' => "User with this Role ($role->name) already exists"]);
             }
         } else {
+            if ($validation->fails()) {
+                return response()->json(['errors' => $validation->errors()], 400);
+            }
             $user = User::create([
                 'first_name'   => $request->first_name,
                 'last_name'    => $request->last_name,
