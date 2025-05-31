@@ -29,6 +29,7 @@ class UserLoginAction
                 'wrong credentials' => 'Your email or password is incorrect'
             ]);
         }
+        dd($user->roles);
         if (! $user->roles->contains('name', $request->role)) {
             throw ValidationException::withMessages([
                 'wrong role' => 'Your role is incorrect for the user'
