@@ -2,6 +2,7 @@
 
 use App\Enums\BookingStatusEnum;
 use App\Models\Arena;
+use App\Models\Field;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -15,7 +16,7 @@ return new class extends Migration {
     {
         Schema::create('bookings', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Arena::class);
+            $table->foreignIdFor(Field::class);
             $table->foreignIdFor(User::class);
             $table->enum('status', array_column(BookingStatusEnum::cases(), 'value'))
                 ->default(BookingStatusEnum::Pending->value);

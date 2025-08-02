@@ -32,12 +32,12 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('arenas', GetArenasAction::class);
     Route::get('locations', GetLocationsAction::class);
     Route::get('arenas/{arena}', fn(Arena $arena) => $arena->load('location.city'));
-    Route::post('arenas/{arena}/booking', CreateBookingAction::class);
+    Route::post('fields/{field}/booking', CreateBookingAction::class);
 });
 
 //Manager APIs
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('arenas/create', CreateArenaAction::class);
     Route::get('user_arenas/', [GetArenasAction::class, 'userArenas']);
-    Route::get('bookings', GetBookingsAction::class);
+    Route::get("arena/{arena}/bookings", GetBookingsAction::class);
 });

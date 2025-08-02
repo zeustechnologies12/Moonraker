@@ -18,8 +18,8 @@ class Booking extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function arena(): BelongsTo
+    public function field(): BelongsTo
     {
-        return $this->belongsTo(Arena::class);
+        return $this->belongsTo(Field::class);
     }
 }

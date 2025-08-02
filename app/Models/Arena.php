@@ -28,4 +28,9 @@ class Arena extends Model
     {
         return $this->hasMany(Booking::class);
     }
+
+    public function fields():HasMany
+    {
+        return $this->hasMany(Field::class);
+    }
 }

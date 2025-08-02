@@ -4,6 +4,7 @@ namespace App\Actions;
 
 use App\Enums\BookingStatusEnum;
 use App\Models\Arena;
+use App\Models\Field;
 use Carbon\Carbon;
 use Lorisleiva\Actions\Concerns\AsAction;
 
@@ -11,22 +12,22 @@ class CreateBookingAction
 {
     use AsAction;
 
-    public function handle($arena_id)
+    public function handle($field_id)
     {
-        $arena = Arena::find($arena_id) ?? null;
+        $field = Field::find($field_id) ?? null;
         $user = auth()->user();
 
-        if ($response = $this->validateExistingBookings($arena, $user)) {
+        if ($response = $this->validateExistingBookings($field, $user)) {
             return $response;
         }
-        return $this->createNewBooking($arena, $user);
+        return $this->createNewBooking($field, $user);
 
     }
 
-    public function validateExistingBookings($arena, $user)
+    public function validateExistingBookings($field, $user)
     {
         return $user->bookings()
-            ->whereArenaId($arena->id)
+            ->whereFieldId($field->id)
             ->whereStatus(BookingStatusEnum::Pending)
             ->exists()
             ? response()->json([
@@ -35,14 +36,14 @@ class CreateBookingAction
         ;
     }
 
-    public function createNewBooking($arena, $user)
+    public function createNewBooking($field, $user)
     {
         $booking = $user->bookings()->make([
             'starts_at' => Carbon::now(),
             'ends_at' => Carbon::now()->addHours(2),
             'status' => BookingStatusEnum::Pending,
         ]);
-        $booking->arena()->associate($arena);
+        $booking->field()->associate($field);
         $booking->save();
         return response()->json([
             'message' => "Booking Created Successfully for $user->username",
