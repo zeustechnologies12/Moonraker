@@ -24,6 +24,7 @@ class GetArenasAction
                 AllowedFilter::partial('location.city.name'),
 
             ]);
+
         return $arenas->paginate();
     }
 
@@ -34,6 +35,7 @@ class GetArenasAction
             ->allowedFilters([
                 AllowedFilter::exact('users.id'),
             ]);
+
         return $arenas->paginate();
     }
 }

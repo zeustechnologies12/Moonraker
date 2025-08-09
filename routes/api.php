@@ -33,5 +33,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('user_arenas/', [GetArenasAction::class, 'userArenas']);
     Route::get('arena/{arena}/bookings', GetBookingsAction::class);
     Route::post('booking/{booking}/{action}', BookingAction::class);
+    Route::get('user_bookings', [GetBookingsAction::class, 'userBookings']);
 
 });

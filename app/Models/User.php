@@ -3,11 +3,11 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Enums\RoleEnum;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -15,7 +15,7 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, HasApiTokens;
+    use HasApiTokens, HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -58,17 +58,24 @@ class User extends Authenticatable
     /**
      * Model Relationships
      */
-
     public function roles(): BelongsToMany
     {
         return $this->belongsToMany(Role::class);
     }
+
     public function arenas()
     {
         return $this->belongsToMany(Arena::class);
     }
-    public function bookings():HasMany
+
+    public function bookings(): HasMany
     {
         return $this->hasMany(Booking::class);
+    }
+
+    public function isManager(): Attribute
+    {
+        return Attribute::get(fn () => $this->roles->contains('name', RoleEnum::Manager->value)
+        );
     }
 }
