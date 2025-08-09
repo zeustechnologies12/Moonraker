@@ -23,7 +23,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('users/edit', UserEditAction::class);
     Route::get('arenas', GetArenasAction::class);
     Route::get('locations', GetLocationsAction::class);
-    Route::get('arenas/{arena}', fn (Arena $arena) => $arena->load('location.city'));
+    Route::get('arenas/{arena}', fn (Arena $arena) => $arena->load('location.city', 'fields.sport'));
     Route::post('fields/{field}/booking', CreateBookingAction::class);
 });
 
